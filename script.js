@@ -10,7 +10,7 @@ const gallery = document.getElementById("gallery");
 const galleryGrid = document.getElementById("galleryGrid");
 const toast = document.getElementById("toast");
 
-const SUPABASE_URL = "https://tzbumlijnjsjruxsalmq.supabase.co/rest/v1/";
+const SUPABASE_URL = "https://tzbumlijnjsjruxsalmq.supabase.co";
 const SUPABASE_KEY = "sb_publishable_xvBbiSqY_Qx7ZT0tc5gkIg_OJsNm";
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
