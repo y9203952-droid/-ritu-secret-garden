@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ritu’s Little Flower Garden</title>
+  <meta name="description" content="An interactive little secret garden.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --ink:#294638;
+      --cream:#fffaf0;
+      --rose:#e99aa7;
+      --rose-dark:#c86f80;
+      --leaf:#6e9b69;
+      --leaf-dark:#456b4d;
+      --sky:#dff3ee;
+      --card:rgba(255,255,255,.72);
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+
+    body{
+      margin:0;
+      min-height:100vh;
+      color:var(--ink);
+      font-family:"DM Sans",sans-serif;
+      background:
+        radial-gradient(circle at 15% 10%,rgba(255,255,255,.9),transparent 28%),
+        linear-gradient(#dff4ef 0%,#eef8df 52%,#d8edc8 100%);
+      overflow-x:hidden;
+    }
+
+    button{font:inherit}
+
+    .scene{
+      min-height:100vh;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .sun{
+      position:absolute;
+      width:180px;
+      height:180px;
+      border-radius:50%;
+      background:#fff2ba;
+      right:10%;
+      top:7%;
+      box-shadow:0 0 80px rgba(255,229,141,.65);
+      opacity:.85;
+    }
+
+    .cloud{
+      position:absolute;
+      background:rgba(255,255,255,.7);
+      border-radius:999px;
+      filter:blur(.3px);
+      animation:drift 30s linear infinite;
+    }
+
+    .cloud:before,
+    .cloud:after{
+      content:"";
+      position:absolute;
+      background:inherit;
+      border-radius:50%;
+    }
+
+    .cloud:before{
+      width:70px;
+      height:70px;
+      left:25px;
+      bottom:0;
+    }
+
+    .cloud:after{
+      width:90px;
+      height:90px;
+      right:25px;
+      bottom:0;
+    }
+
+    .cloud.one{
+      width:180px;
+      height:42px;
+      top:16%;
+      left:-200px;
+    }
+
+    .cloud.two{
+      width:140px;
+      height:35px;
+      top:28%;
+      left:-180px;
+      animation-delay:-14s;
+      opacity:.5;
+    }
+
+    @keyframes drift{
+      to{transform:translateX(calc(100vw + 450px))}
+    }
+
+    .topbar{
+      position:relative;
+      z-index:5;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:15px;
+      padding:22px clamp(20px,5vw,70px);
+    }
+
+    .brand{
+      font-family:"Cormorant Garamond",serif;
+      font-size:28px;
+      font-weight:700;
+    }
+
+    .mini-btn{
+      border:1px solid rgba(41,70,56,.18);
+      background:rgba(255,255,255,.48);
+      color:var(--ink);
+      border-radius:999px;
+      padding:10px 15px;
+      cursor:pointer;
+      backdrop-filter:blur(10px);
+      transition:.2s;
+    }
+
+    .mini-btn:hover{
+      transform:translateY(-2px);
+      background:white;
+    }
+
+    .hero{
+      position:relative;
+      z-index:2;
+      min-height:calc(100vh - 82px);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      text-align:center;
+      padding:5vh 20px 80px;
+    }
+
+    h1{
+      font-family:"Cormorant Garamond",serif;
+      font-size:clamp(55px,10vw,110px);
+      line-height:.8;
+      margin:20px 0 18px;
+      letter-spacing:-3px;
+    }
+
+    .subtitle{
+      max-width:620px;
+      font-size:17px;
+      line-height:1.7;
+      opacity:.8;
+    }
+
+    .garden{
+      position:relative;
+      width:min(900px,92vw);
+      height:440px;
+      margin-top:15px;
+    }
+
+    .hill{
+      position:absolute;
+      left:50%;
+      bottom:36px;
+      transform:translateX(-50%) rotate(-3deg);
+      width:75%;
+      height:180px;
+      border-radius:50% 50% 42% 42%;
+      background:linear-gradient(145deg,#86b875,#5d955f);
+      box-shadow:
+        inset -20px -18px 0 rgba(54,103,61,.12),
+        0 30px 45px rgba(55,94,55,.18);
+    }
+
+    .hill:before{
+      content:"";
+      position:absolute;
+      inset:35px 45px;
+      border-radius:50%;
+      background:rgba(255,255,255,.08);
+      transform:rotate(-10deg);
+    }
+
+    .pond{
+      position:absolute;
+      left:52%;
+      bottom:68px;
+      width:180px;
+      height:58px;
+      border-radius:50%;
+      background:linear-gradient(180deg,#b9e7e8,#77c4c5);
+      box-shadow:inset 0 5px 12px rgba(255,255,255,.55);
+      transform:rotate(-7deg);
+    }
+
+    .tree{
+      position:absolute;
+      bottom:105px;
+      left:18%;
+      width:30px;
+      height:140px;
+      background:#6e5138;
+      border-radius:15px;
+    }
+
+    .tree:before,
+    .tree:after{
+      content:"";
+      position:absolute;
+      background:#6e9b69;
+      border-radius:50%;
+      width:115px;
+      height:115px;
+      top:-75px;
+      left:-40px;
+      box-shadow:55px 15px 0 #79a86d,-18px 28px 0 #5d915f;
+    }
+
+    .tree:after{
+      width:60px;
+      height:60px;
+      top:-105px;
+      left:12px;
+      background:#86b875;
+      box-shadow:none;
+    }
+
+    .deer{
+      position:absolute;
+      z-index:3;
+      right:12%;
+      bottom:118px;
+      font-size:72px;
+      line-height:1;
+      filter:drop-shadow(0 8px 6px rgba(55,94,55,.18));
+      animation:deer-breathe 3.5s ease-in-out infinite;
+      user-select:none;
+    }
+
+    @keyframes deer-breathe{
+      0%,100%{transform:translateY(0)}
+      50%{transform:translateY(-4px)}
+    }
+
+    .controls{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      justify-content:center;
+      margin-top:5px;
+    }
+
+    .cta{
+      border:0;
+      border-radius:999px;
+      padding:14px 22px;
+      cursor:pointer;
+      color:white;
+      background:var(--rose-dark);
+      box-shadow:0 8px 22px rgba(177,91,109,.25);
+      transition:.2s;
+      font-weight:600;
+    }
+
+    .cta:hover{
+      transform:translateY(-3px);
+      box-shadow:0 12px 26px rgba(177,91,109,.3);
+    }
+
+    .secondary{
+      background:rgba(255,255,255,.65);
+      color:var(--ink);
+      border:1px solid rgba(41,70,56,.13);
+      box-shadow:none;
+    }
+
+    .flower{
+      position:absolute;
+      z-index:4;
+      width:28px;
+      height:28px;
+      cursor:pointer;
+      animation:
+        bloom .55s cubic-bezier(.2,1.5,.5,1) both,
+        sway 4s ease-in-out infinite;
+      transform-origin:bottom center;
+    }
+
+    .flower .petals{
+      position:absolute;
+      inset:0;
+    }
+
+    .petal{
+      position:absolute;
+      width:15px;
+      height:20px;
+      border-radius:60% 60% 45% 45%;
+      left:7px;
+      top:1px;
+      background:var(--flower,#f4a5b4);
+      transform-origin:50% 100%;
+    }
+
+    .petal:nth-child(1){transform:rotate(0)}
+    .petal:nth-child(2){transform:rotate(72deg)}
+    .petal:nth-child(3){transform:rotate(144deg)}
+    .petal:nth-child(4){transform:rotate(216deg)}
+    .petal:nth-child(5){transform:rotate(288deg)}
+
+    .center{
+      position:absolute;
+      width:9px;
+      height:9px;
+      border-radius:50%;
+      background:#f4c85b;
+      left:10px;
+      top:10px;
+      z-index:2;
+    }
+
+    @keyframes bloom{
+      from{opacity:0;transform:scale(0) translateY(20px)}
+      to{opacity:1;transform:scale(1)}
+    }
+
+    @keyframes sway{
+      0%,100%{rotate:-3deg}
+      50%{rotate:4deg}
+    }
+
+    .firefly{
+      position:absolute;
+      width:5px;
+      height:5px;
+      border-radius:50%;
+      background:#fff2a5;
+      box-shadow:0 0 14px 5px rgba(255,239,134,.6);
+      animation:fly 5s ease-in-out infinite;
+      opacity:.8;
+    }
+
+    @keyframes fly{
+      0%,100%{transform:translate(0,0);opacity:.25}
+      50%{transform:translate(35px,-28px);opacity:1}
+    }
+
+    .butterfly{
+      position:absolute;
+      z-index:3;
+      font-size:25px;
+      animation:butterfly-float 7s ease-in-out infinite;
+      user-select:none;
+    }
+
+    .butterfly.one{
+      left:18%;
+      bottom:220px;
+    }
+
+    .butterfly.two{
+      right:27%;
+      bottom:250px;
+      animation-delay:-3s;
+    }
+
+    @keyframes butterfly-float{
+      0%,100%{transform:translate(0,0) rotate(-5deg)}
+      50%{transform:translate(25px,-20px) rotate(7deg)}
+    }
+
+    .modal,
+    .gallery{
+      position:fixed;
+      inset:0;
+      z-index:20;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+      background:rgba(31,53,42,.42);
+      backdrop-filter:blur(8px);
+    }
+
+    .modal.show,
+    .gallery.show{
+      display:flex;
+    }
+
+    .panel{
+      width:min(560px,94vw);
+      max-height:90vh;
+      overflow:auto;
+      background:var(--cream);
+      border-radius:28px;
+      padding:28px;
+      box-shadow:0 30px 80px rgba(20,40,30,.25);
+      position:relative;
+    }
+
+    .close{
+      position:absolute;
+      right:16px;
+      top:14px;
+      border:0;
+      background:transparent;
+      font-size:25px;
+      cursor:pointer;
+      color:var(--ink);
+    }
+
+    .panel h2{
+      font-family:"Cormorant Garamond",serif;
+      font-size:36px;
+      margin:0 0 5px;
+    }
+
+    .panel p{
+      opacity:.7;
+    }
+
+    .form{
+      display:grid;
+      gap:13px;
+      margin-top:18px;
+    }
+
+    input,
+    textarea,
+    select{
+      width:100%;
+      border:1px solid #d9ded2;
+      background:white;
+      border-radius:14px;
+      padding:13px;
+      font:inherit;
+      color:var(--ink);
+      outline:none;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus{
+      border-color:var(--rose);
+      box-shadow:0 0 0 3px rgba(233,154,167,.16);
+    }
+
+    textarea{
+      min-height:100px;
+      resize:vertical;
+    }
+
+    .gallery-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+      gap:12px;
+      margin-top:20px;
+    }
+
+    .card{
+      background:white;
+      border-radius:18px;
+      padding:15px;
+      min-height:130px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+    }
+
+    .card-flower{
+      font-size:45px;
+    }
+
+    .card small{
+      opacity:.55;
+    }
+
+    .empty{
+      text-align:center;
+      padding:30px;
+      opacity:.6;
+      grid-column:1 / -1;
+    }
+
+    footer{
+      padding:30px 20px;
+      text-align:center;
+      font-size:13px;
+      opacity:.55;
+    }
+
+    .toast{
+      position:fixed;
+      left:50%;
+      bottom:25px;
+      transform:translate(-50%,30px);
+      background:#294638;
+      color:white;
+      padding:12px 17px;
+      border-radius:999px;
+      z-index:50;
+      opacity:0;
+      pointer-events:none;
+      transition:.3s;
+      max-width:min(90vw,500px);
+      text-align:center;
+    }
+
+    .toast.show{
+      opacity:1;
+      transform:translate(-50%,0);
+    }
+
+    .status{
+      margin:12px 0 0;
+      font-size:13px;
+      opacity:.65;
+      text-align:center;
+    }
+
+    @media(max-width:650px){
+      .topbar{
+        align-items:flex-start;
+      }
+
+      .brand{
+        font-size:22px;
+        max-width:55%;
+      }
+
+      .garden{
+        height:350px;
+      }
+
+      .hill{
+        width:90%;
+        height:145px;
+      }
+
+      .tree{
+        left:8%;
+        transform:scale(.8);
+        transform-origin:bottom;
+      }
+
+      .pond{
+        width:130px;
+        left:55%;
+      }
+
+      .deer{
+        right:5%;
+        bottom:105px;
+        font-size:55px;
+      }
+
+      .butterfly.one{
+        left:10%;
+        bottom:195px;
+      }
+
+      .butterfly.two{
+        right:12%;
+        bottom:220px;
+      }
+
+      .hero{
+        padding-top:3vh;
+      }
+
+      h1{
+        font-size:clamp(52px,17vw,80px);
+      }
+
+      .subtitle{
+        font-size:15px;
+      }
+    }
+
+    @media(prefers-reduced-motion:reduce){
+      *,
+      *::before,
+      *::after{
+        animation-duration:.001ms !important;
+        animation-iteration-count:1 !important;
+        scroll-behavior:auto !important;
+      }
+    }
+  </style>
+
+  <!-- Supabase browser client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    const SUPABASE_URL = "https://talsbbuecqdhdefcqwnh.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_7Ze6anO7eRAu_Ji7-c0otA_u-6Ibuc";
+
+    const supabaseClient = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+  </script>
+</head>
+
+<body>
+  <div class="scene">
+    <div class="sun"></div>
+    <div class="cloud one"></div>
+    <div class="cloud two"></div>
+
+    <header class="topbar">
+      <div class="brand">🌿 Ritu’s Little Flower Garden</div>
+      <button class="mini-btn" id="galleryBtn" type="button">🌸 Flower gallery</button>
+    </header>
+
+    <main class="hero">
+      <h1>Ritu’s Little<br>Paradise</h1>
+
+      <p class="subtitle">
+        A little garden made with love, where every flower blooms for Ritu
+        and every petal holds a beautiful feeling. 💗
+      </p>
+
+      <div class="garden" id="garden" aria-label="Ritu's little flower garden">
+        <div class="hill"></div>
+        <div class="pond"></div>
+        <div class="tree"></div>
+
+        <div class="deer" aria-hidden="true">🦌</div>
+        <div class="butterfly one" aria-hidden="true">🦋</div>
+        <div class="butterfly two" aria-hidden="true">🦋</div>
+
+        <div class="firefly" style="left:32%;bottom:230px"></div>
+        <div class="firefly" style="left:65%;bottom:270px;animation-delay:-2s"></div>
+        <div class="firefly" style="left:76%;bottom:205px;animation-delay:-3.5s"></div>
+      </div>
+
+      <div class="controls">
+        <button class="cta" id="drawBtn" type="button">🌸 Plant a flower</button>
+        <button class="cta secondary" id="surpriseBtn" type="button">✨ Surprise me</button>
+      </div>
+
+      <p class="status" id="status">Loading the shared garden…</p>
+    </main>
+
+    <footer>Made with flowers, pixels & a little imagination.</footer>
+  </div>
+
+  <div class="modal" id="modal" aria-hidden="true">
+    <div class="panel" role="dialog" aria-modal="true" aria-labelledby="plantTitle">
+      <button class="close" id="closeModal" type="button" aria-label="Close">×</button>
+
+      <h2 id="plantTitle">Plant a flower 🌷</h2>
+      <p>Choose a flower and give it a little message.</p>
+
+      <div class="form">
+        <select id="flowerType">
+          <option value="🌸">🌸 Cherry blossom</option>
+          <option value="🌷">🌷 Tulip</option>
+          <option value="🌻">🌻 Sunflower</option>
+          <option value="🌹">🌹 Rose</option>
+          <option value="🌼">🌼 Daisy</option>
+          <option value="🪻">🪻 Lavender</option>
+          <option value="🪷">🪷 Lotus</option>
+        </select>
+
+        <input
+          id="flowerName"
+          maxlength="30"
+          placeholder="Flower name (optional)"
+          autocomplete="off"
+        >
+
+        <textarea
+          id="flowerMessage"
+          maxlength="140"
+          placeholder="Write a tiny message..."
+        ></textarea>
+
+        <button class="cta" id="plantBtn" type="button">Plant it 🌱</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="gallery" id="gallery" aria-hidden="true">
+    <div class="panel" role="dialog" aria-modal="true" aria-labelledby="galleryTitle">
+      <button class="close" id="closeGallery" type="button" aria-label="Close">×</button>
+
+      <h2 id="galleryTitle">Our flower garden 🌺</h2>
+      <p>Every flower planted here is shared with everyone. 🌸</p>
+
+      <div class="gallery-grid" id="galleryGrid"></div>
+
+      <button class="mini-btn" id="clearBtn" type="button" style="margin-top:15px">
+        Clear garden
+      </button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const garden = document.getElementById("garden");
+    const modal = document.getElementById("modal");
+    const gallery = document.getElementById("gallery");
+    const galleryGrid = document.getElementById("galleryGrid");
+    const toast = document.getElementById("toast");
+    const status = document.getElementById("status");
+
+    let flowers = [];
+    let toastTimer;
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("show");
+
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.classList.remove("show");
+      }, 2500);
+    }
+
+    function setStatus(message) {
+      status.textContent = message;
+    }
+
+    function escapeHtml(str) {
+      return String(str).replace(/[&<>"']/g, (m) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+      }[m]));
+    }
+
+    function flowerPosition() {
+      // Keep flowers mainly on the visible grassy hill.
+      return {
+        left: 15 + Math.random() * 70,
+        bottom: 20 + Math.random() * 38
+      };
+    }
+
+    function normalizePosition(pos) {
+      if (!pos) return flowerPosition();
+
+      if (typeof pos === "string") {
+        try {
+          pos = JSON.parse(pos);
+        } catch {
+          return flowerPosition();
+        }
+      }
+
+      const left = Number(pos.left);
+      const bottom = Number(pos.bottom);
+
+      if (!Number.isFinite(left) || !Number.isFinite(bottom)) {
+        return flowerPosition();
+      }
+
+      return {
+        left: Math.max(5, Math.min(90, left)),
+        bottom: Math.max(8, Math.min(60, bottom))
+      };
+    }
+
+    function createFlower(data, index) {
+      const el = document.createElement("div");
+      el.className = "flower";
+
+      const title =
+        data.message ||
+        data.name ||
+        "A little flower";
+
+      el.title = title;
+      el.setAttribute("role", "button");
+      el.setAttribute("tabindex", "0");
+      el.setAttribute("aria-label", title);
+
+      const pos = normalizePosition(data.pos);
+
+      el.style.left = pos.left + "%";
+      el.style.bottom = pos.bottom + "%";
+
+      el.style.setProperty(
+        "--flower",
+        ["#f3a4b6", "#f5bd65", "#c8a1e5", "#f59aa6", "#ffd86e"][index % 5]
+      );
+
+      el.style.animationDelay = (index * 0.07) + "s";
+
+      el.innerHTML = `
+        <div class="petals">
+          <span class="petal"></span>
+          <span class="petal"></span>
+          <span class="petal"></span>
+          <span class="petal"></span>
+          <span class="petal"></span>
+        </div>
+        <span class="center"></span>
+      `;
+
+      const revealMessage = () => showToast(title);
+
+      el.addEventListener("click", revealMessage);
+
+      el.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          revealMessage();
+        }
+      });
+
+      garden.appendChild(el);
+    }
+
+    function renderGarden() {
+      garden.querySelectorAll(".flower").forEach((flower) => flower.remove());
+      flowers.forEach(createFlower);
+    }
+
+    function renderGallery() {
+      galleryGrid.innerHTML = "";
+
+      if (!flowers.length) {
+        galleryGrid.innerHTML = `
+          <div class="empty">
+            No flowers yet.<br>
+            Plant the first one! 🌱
+          </div>
+        `;
+        return;
+      }
+
+      [...flowers].reverse().forEach((flower) => {
+        const card = document.createElement("div");
+        card.className = "card";
+
+        card.innerHTML = `
+          <div class="card-flower">${escapeHtml(flower.emoji || "🌸")}</div>
+          <strong>${escapeHtml(flower.name || "Little flower")}</strong>
+          <small>${escapeHtml(flower.message || "Just growing quietly 🌿")}</small>
+        `;
+
+        galleryGrid.appendChild(card);
+      });
+    }
+
+    async function loadFlowers() {
+      setStatus("Loading the shared garden…");
+
+      const { data, error } = await supabaseClient
+        .from("flowers")
+        .select("*")
+        .order("created_at", { ascending: true });
+
+      if (error) {
+        console.error("Supabase load error:", error);
+        flowers = [];
+        renderGarden();
+        renderGallery();
+
+        setStatus("The garden is offline right now.");
+        showToast("Couldn't load the shared garden. 🌱");
+        return;
+      }
+
+      flowers = data || [];
+      renderGarden();
+      renderGallery();
+
+      setStatus(
+        flowers.length
+          ? `${flowers.length} flower${flowers.length === 1 ? "" : "s"} blooming here. 🌸`
+          : "The garden is waiting for its first flower. 🌱"
+      );
+    }
+
+    async function plantFlower() {
+      const emoji = document.getElementById("flowerType").value;
+      const name = document.getElementById("flowerName").value.trim();
+      const message = document.getElementById("flowerMessage").value.trim();
+
+      const flower = {
+        emoji,
+        name,
+        message,
+        pos: flowerPosition()
+      };
+
+      const plantButton = document.getElementById("plantBtn");
+      plantButton.disabled = true;
+      plantButton.textContent = "Planting… 🌱";
+
+      const { data, error } = await supabaseClient
+        .from("flowers")
+        .insert([flower])
+        .select()
+        .single();
+
+      plantButton.disabled = false;
+      plantButton.textContent = "Plant it 🌱";
+
+      if (error) {
+        console.error("Supabase insert error:", error);
+        showToast("Couldn't plant the flower. Please try again. 🌱");
+        return;
+      }
+
+      flowers.push(data);
+      renderGarden();
+      renderGallery();
+
+      document.getElementById("flowerName").value = "";
+      document.getElementById("flowerMessage").value = "";
+
+      modal.classList.remove("show");
+      modal.setAttribute("aria-hidden", "true");
+
+      setStatus(
+        `${flowers.length} flower${flowers.length === 1 ? "" : "s"} blooming here. 🌸`
+      );
+
+      showToast("Your flower has bloomed! 🌸");
+    }
+
+    function openModal() {
+      modal.classList.add("show");
+      modal.setAttribute("aria-hidden", "false");
+      document.getElementById("flowerType").focus();
+    }
+
+    function closeModal() {
+      modal.classList.remove("show");
+      modal.setAttribute("aria-hidden", "true");
+    }
+
+    function openGallery() {
+      renderGallery();
+      gallery.classList.add("show");
+      gallery.setAttribute("aria-hidden", "false");
+    }
+
+    function closeGallery() {
+      gallery.classList.remove("show");
+      gallery.setAttribute("aria-hidden", "true");
+    }
+
+    document.getElementById("drawBtn").addEventListener("click", openModal);
+    document.getElementById("closeModal").addEventListener("click", closeModal);
+
+    document.getElementById("galleryBtn").addEventListener("click", openGallery);
+    document.getElementById("closeGallery").addEventListener("click", closeGallery);
+
+    document.getElementById("plantBtn").addEventListener("click", plantFlower);
+
+    document.getElementById("surpriseBtn").addEventListener("click", () => {
+      const surprises = [
+        "You deserve a garden full of good things. 🌷",
+        "Something beautiful is growing here. 🌱",
+        "Take a breath. Stay a while. 🍃",
+        "Tiny steps still make a garden. 🌼",
+        "Today is a good day to bloom. 🌻"
+      ];
+
+      showToast(
+        surprises[Math.floor(Math.random() * surprises.length)]
+      );
+    });
+
+    // The garden is shared through Supabase, so this button does not
+    // delete the shared database. It simply explains that behavior.
+    document.getElementById("clearBtn").addEventListener("click", () => {
+      showToast("The shared garden can’t be cleared from here. 🌸");
+    });
+
+    [modal, gallery].forEach((layer) => {
+      layer.addEventListener("click", (event) => {
+        if (event.target === layer) {
+          layer.classList.remove("show");
+          layer.setAttribute("aria-hidden", "true");
+        }
+      });
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closeModal();
+        closeGallery();
+      }
+    });
+
+    // Refresh the shared garden periodically so visitors can see new flowers.
+    setInterval(loadFlowers, 30000);
+
+    renderGarden();
+    renderGallery();
+    loadFlowers();
+  </script>
+</body>
+</html>
