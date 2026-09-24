@@ -871,15 +871,11 @@
         .order("created_at", { ascending: true });
 
       if (error) {
-        console.error("Supabase load error:", error);
-        flowers = [];
-        renderGarden();
-        renderGallery();
-
-        setStatus("The garden is offline right now.");
-        showToast("Couldn't load the shared garden. 🌱");
-        return;
-      }
+  console.error("SUPABASE ERROR:", error);
+  setStatus("ERROR: " + error.message);
+  showToast("ERROR: " + error.message);
+  return;
+}
 
       flowers = data || [];
       renderGarden();
