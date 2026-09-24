@@ -141,11 +141,12 @@ async function plantFlower() {
   const flowerMessage = document.getElementById("flowerMessage");
 
   const flower = {
-    emoji: flowerType?.value || "🌸",
-    name: flowerName?.value.trim() || "",
-    message: flowerMessage?.value.trim() || "",
-    pos: flowerPosition()
-  };
+  type: "flower",
+  emoji: flowerType?.value || "🌸",
+  name: flowerName?.value.trim() || "",
+  message: flowerMessage?.value.trim() || "",
+  pos: flowerPosition()
+};
 
   const { data, error } = await supabaseClient
     .from(TABLE)
