@@ -126,7 +126,7 @@ async function loadFlowers() {
 
   if (error) {
     console.error("Supabase load error:", error);
-    showToast("Could not load the shared garden.");
+    showToast("ERROR: " + error.message);
     return;
   }
 
