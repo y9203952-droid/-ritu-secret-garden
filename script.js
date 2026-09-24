@@ -10,8 +10,8 @@ const gallery = document.getElementById("gallery");
 const galleryGrid = document.getElementById("galleryGrid");
 const toast = document.getElementById("toast");
 
-const SUPABASE_URL = "https://talsbbuecqdhdefcqwnh.supabase.co";
-const SUPABASE_KEY = "sb_publishable_7Ze6anO7eRAu_Ji7-c0otA_u-6Ibucm";
+const SUPABASE_URL = "https://tzbumlijnjsjruxsalmq.supabase.co/rest/v1/";
+const SUPABASE_KEY = "sb_publishable_xvBbiSqY_Qx7ZT0tc5gkIg_OJsNmi";
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 const STORAGE_KEY = "secretGardenFlowers";
