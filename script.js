@@ -11,7 +11,7 @@ const galleryGrid = document.getElementById("galleryGrid");
 const toast = document.getElementById("toast");
 
 const SUPABASE_URL = "https://tzbumlijnjsjruxsalmq.supabase.co";
-const SUPABASE_KEY = "sb_publishable_xvBbiSqY_Qx7ZT0tc5gkIg_OJsNm";
+const SUPABASE_KEY = "sb_publishable_90vDHoVEtUDsUmezr72gXw_z_w4A8iS";
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 const STORAGE_KEY = "secretGardenFlowers";
